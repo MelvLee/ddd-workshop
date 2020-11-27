@@ -15,7 +15,7 @@ namespace Domain
 
         public Screening Screening { get; set; }
 
-        public void Handle(ReserveSeatsCommand command)
+        public void Handle(ReserveSeats command)
         {
             Screening.Reserve(command.Customer, command.SeatsToReserve);
         }

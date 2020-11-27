@@ -2,6 +2,7 @@
 using Domain.Commands;
 using Domain.Entities;
 using Domain.Events;
+using Domain.Projections;
 using Domain.Queries;
 using Domain.ValueObjects;
 using FluentAssertions;
@@ -27,12 +28,13 @@ namespace Tests
         readonly ICollection<IEvent> _events = new List<IEvent>();
         readonly ICollection<IEvent> _publishedEvents = new List<IEvent>();
         IEnumerable<Reservation> _reservations;
-        private Screening _screening;
+        private ScreeningState _screening;
 
         [Given(@"the Screening for Movie '(.*)' scheduled on '(.*)' in (.*) in Cinema '(.*)'")]
         public void GivenTheScreening(string movie, DateTime timeOfDay, string room, string cinema)
         {
-            _events.Add(new ScreeningCreated(movie, timeOfDay, room, cinema));
+            _events.Add(new ScreeningPlanned(movie, timeOfDay, room, cinema));
+            _screening = new ScreeningState(_events);
         }
         
         [Given(@"there are no Reservations")]
@@ -59,8 +61,7 @@ namespace Tests
                 _events.Add(@event);
             });
 
-            sut.Handle(new ReserveSeatsCommand(seats.ToSeats(), customer));
-            _screening = sut.Screening;
+            sut.Handle(new ReserveSeats(seats.ToSeats(), customer, _screening.ToString()));
         }
 
         [When(@"Customer '(.*)' queries his Reservations")]

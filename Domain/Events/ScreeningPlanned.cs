@@ -2,9 +2,9 @@
 
 namespace Domain.Events
 {
-    public struct ScreeningCreated : IEvent
+    public struct ScreeningPlanned : IEvent
     {
-        public ScreeningCreated(string movie, DateTime timeOfDay, string room, string cinema)
+        public ScreeningPlanned(string movie, DateTime timeOfDay, string room, string cinema)
         {
             Movie = movie;
             TimeOfDay = timeOfDay;

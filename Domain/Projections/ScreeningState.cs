@@ -13,7 +13,7 @@ namespace Domain.Projections
             {
                 switch (evt)
                 {
-                    case ScreeningCreated sc:
+                    case ScreeningPlanned sc:
                         Movie = sc.Movie;
                         TimeOfDay = sc.TimeOfDay;
                         Room = sc.Room;
